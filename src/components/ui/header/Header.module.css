@@ -1,0 +1,18 @@
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10%;
+    background-color: #8a2b06;
+    height: 5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    /* position: fixed; */
+    width: 80%;
+    z-index: 10;
+    color: white;
+}
+
+.header__heading {
+    cursor: default;
+}

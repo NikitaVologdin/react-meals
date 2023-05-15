@@ -1,0 +1,29 @@
+.contentBox {
+    padding: 20px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border-radius: 14px;
+    margin: 0 auto;
+}
+
+.whiteBG {
+    background-color: white;
+    width: 70%;
+}
+
+.darkBG {
+    background-color: rgba(95, 91, 91, 0.978);
+    color: white;
+    text-align: center;
+}
+
+.contentBox_W70 {
+    width: 70%;
+}
+
+.contentBox_W50 {
+    width: 50%;
+}
+
+.contentBox_W30 {
+    width: 30%;
+}

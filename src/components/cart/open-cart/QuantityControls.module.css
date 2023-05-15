@@ -1,0 +1,5 @@
+.quantityControls {
+    display: flex;
+    width: 7rem;
+    justify-content: space-between;
+}

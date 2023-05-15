@@ -1,0 +1,10 @@
+.horizontalLine {
+    height: 3px;
+    border-radius: 50px;
+    margin: 1rem 0;
+    background-color: rgb(225, 221, 221);
+}
+
+.horizontalLine_red {
+    background-color: #8a2b06;
+}

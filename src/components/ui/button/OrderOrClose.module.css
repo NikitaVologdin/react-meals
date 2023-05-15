@@ -1,0 +1,11 @@
+.orderOrClose {
+    display: flex;
+    justify-content: end;
+    margin-top: 1.3rem;
+}
+
+.orderOrClose__buttons {
+    width: 45%;
+    display: flex;
+    justify-content: space-between;
+}
