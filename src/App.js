@@ -2,7 +2,7 @@ import { useContext } from "react";
 import Header from "./components/ui/header/Header";
 import About from "./components/about/About";
 import ItemsList from "./components/items/items-list/ItemsList";
-import OpenedCart from "./components/cart/open-cart/OpenedCart";
+import OpenedCart from "./components/cart/opened-cart/OpenedCart";
 import { CartContext } from "./store/CartContext";
 import "./App.css";
 

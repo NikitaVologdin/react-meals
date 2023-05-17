@@ -1,8 +1,8 @@
-import styles from "./OpenCartItem.module.css";
+import styles from "./OpenedCartItem.module.css";
 import QuantityControls from "./QuantityControls";
 import Hr from "../../ui/hr/HorizontalLine";
 
-export default function OpenCartItem(props) {
+export default function OpenedCartItem(props) {
   const quantityChangeHandler = (event) => {
     props.dispatch({
       type: "QUANTITY_CHANGE",

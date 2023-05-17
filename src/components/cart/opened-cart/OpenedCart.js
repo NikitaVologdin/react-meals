@@ -1,6 +1,6 @@
 import Modal from "../../ui/modal/Modal";
 import ContentBox from "../../ui/containers/ContentBox";
-import OpenCartItem from "./OpenCartItem";
+import OpenedCartItem from "./OpenedCartItem";
 import TotalAmount from "./TotalAmount";
 import OrderOrClose from "../../ui/button/OrderOrClose";
 import { useContext } from "react";
@@ -15,14 +15,14 @@ export default function OpenCart(props) {
       <ContentBox bg="white" width="30">
         {order.map((item) => {
           return (
-            <OpenCartItem
+            <OpenedCartItem
               name={item.name}
               price={item.price}
               amount={item.amount}
               key={item.id}
               id={item.id}
               dispatch={ctx.dispatch}
-            ></OpenCartItem>
+            ></OpenedCartItem>
           );
         })}
 
