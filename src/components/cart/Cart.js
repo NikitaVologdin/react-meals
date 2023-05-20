@@ -19,7 +19,7 @@ export default function Cart(props) {
         </svg>
       </div>
       <div className={styles.cart__heading}>Your Cart</div>
-      <div className={styles.cart__counter}>{props.amount || 99}</div>
+      <div className={styles.cart__counter}>{props.amount || 0}</div>
     </div>
   );
 }

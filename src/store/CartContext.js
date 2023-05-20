@@ -13,29 +13,29 @@ const cartReducer = (state, action) => {
   }
 
   if (action.type === "REMOVE_ONE") {
-    const newState = {order: [...state.order]};
+    const newState = { order: JSON.parse(JSON.stringify(state.order)) };
     const item = newState.order.find((e) => e.id === action.id);
     item.amount--;
     return newState;
   }
 
   if (action.type === "ADD_ONE") {
-    const newState = { order: [...state.order] };
+    const newState = { order: JSON.parse(JSON.stringify(state.order)) };
     const item = newState.order.find((e) => e.id === action.id);
     item.amount++;
     return newState;
   }
 
-  if(action.type === 'QUANTITY_CHANGE') {
-    const newState = {order: [...state.order]}
-    const item = newState.order.find(e => e.id === action.id)
-    item.amount = action.amount
-    return newState
+  if (action.type === "QUANTITY_CHANGE") {
+    const newState = { order: JSON.parse(JSON.stringify(state.order)) };
+    const item = newState.order.find((e) => e.id === action.id);
+    item.amount = action.amount;
+    return newState;
   }
 };
 
 const makeOrderList = (orderList, newItem) => {
-  const state = [...orderList];
+  const state = JSON.parse(JSON.stringify(orderList))
 
   const itemInOrder = state.find((item) => item.id === newItem.id);
 
@@ -47,23 +47,33 @@ const makeOrderList = (orderList, newItem) => {
   }
 
   if (itemInOrder) {
-    itemInOrder.amount = itemInOrder.amount + newItem.amount;
+    itemInOrder.amount += newItem.amount;
   }
+
   return state;
 };
 
-const countTotal = (order) => {
+const countTotalPrice = (order) => {
   if (order.length > 0) {
     return order.reduce((acc, e) => acc + +e.price * +e.amount, 0);
   }
   return 0;
 };
 
+const countTotalAmount = (order) => {
+  if(order.length > 0) {
+    return order.reduce((acc, e) => acc + e.amount, 0)
+  }
+
+  return 0
+}
+
 export const CartContext = createContext({
   isCartOpen: false,
   setOpenCart: () => {},
   order: [],
   dispatch: () => {},
+  amount: 0,
 });
 
 const CartContextProvider = (props) => {
@@ -79,7 +89,8 @@ const CartContextProvider = (props) => {
         setOpenCart,
         dispatch,
         order: state.order,
-        total: countTotal(state.order),
+        total: countTotalPrice(state.order),
+        amount: countTotalAmount(state.order),
       }}
     >
       {props.children}
