@@ -7,66 +7,85 @@ const DB = [
   { name: "Sushi", description: "lorem10", price: 12.99, id: "4" },
 ];
 
+function myname(state) {
+  const newState = JSON.parse(JSON.stringify(state));
+
+  return newState
+}
+
 const cartReducer = (state, action) => {
   if (action.type === "ADD_TO_CART") {
-    return { order: makeOrderList(state.order, action.item) };
+    return makeOrder(state, action.item);
   }
 
   if (action.type === "REMOVE_ONE") {
-    const newState = { order: JSON.parse(JSON.stringify(state.order)) };
-    const item = newState.order.find((e) => e.id === action.id);
+    const newState = JSON.parse(JSON.stringify(state));
+    const order = newState.order;
+    const item = order.find((e) => e.id === action.id);
     item.amount--;
+    newState.totalPrice = countTotalPrice(order);
+    newState.totalAmount = countTotalAmount(order);
     return newState;
   }
 
   if (action.type === "ADD_ONE") {
-    const newState = { order: JSON.parse(JSON.stringify(state.order)) };
-    const item = newState.order.find((e) => e.id === action.id);
+    const newState = JSON.parse(JSON.stringify(state));
+    const order = newState.order;
+    const item = order.find((e) => e.id === action.id);
     item.amount++;
+    newState.totalPrice = countTotalPrice(order);
+    newState.totalAmount = countTotalAmount(order);
     return newState;
   }
 
   if (action.type === "QUANTITY_CHANGE") {
-    const newState = { order: JSON.parse(JSON.stringify(state.order)) };
-    const item = newState.order.find((e) => e.id === action.id);
+    const newState = JSON.parse(JSON.stringify(state));
+    const order = newState.order;
+    const item = order.find((e) => e.id === action.id);
     item.amount = action.amount;
+    newState.totalPrice = countTotalPrice(order);
+    newState.totalAmount = countTotalAmount(order);
     return newState;
   }
 };
 
-const makeOrderList = (orderList, newItem) => {
-  const state = JSON.parse(JSON.stringify(orderList))
-
-  const itemInOrder = state.find((item) => item.id === newItem.id);
+const makeOrder = (currentState, newItem) => {
+  const newState = JSON.parse(JSON.stringify(currentState));
+  const order = newState.order;
+  const itemInOrder = order.find((item) => item.id === newItem.id);
 
   if (!itemInOrder) {
     const dbItem = DB.find((e) => e.id === newItem.id);
     newItem.name = dbItem.name;
     newItem.price = dbItem.price;
-    state.push(newItem);
+    order.push(newItem);
   }
 
   if (itemInOrder) {
     itemInOrder.amount += newItem.amount;
   }
 
-  return state;
+  newState.totalPrice = countTotalPrice(order);
+  newState.totalAmount = countTotalAmount(order);
+
+  return newState;
 };
 
 const countTotalPrice = (order) => {
   if (order.length > 0) {
-    return order.reduce((acc, e) => acc + +e.price * +e.amount, 0);
+    const totalPrice = order.reduce((acc, e) => acc + +e.price * +e.amount, 0);
+    return totalPrice.toFixed(2)
   }
   return 0;
 };
 
 const countTotalAmount = (order) => {
-  if(order.length > 0) {
-    return order.reduce((acc, e) => acc + e.amount, 0)
+  if (order.length > 0) {
+    return order.reduce((acc, e) => acc + e.amount, 0);
   }
 
-  return 0
-}
+  return 0;
+};
 
 export const CartContext = createContext({
   isCartOpen: false,
@@ -79,7 +98,11 @@ export const CartContext = createContext({
 const CartContextProvider = (props) => {
   const [isCartOpen, setOpenCart] = useState(false);
 
-  const [state, dispatch] = useReducer(cartReducer, { order: [] });
+  const [state, dispatch] = useReducer(cartReducer, {
+    order: [],
+    totalPrice: 0,
+    totalAmount: 0,
+  });
 
   return (
     <CartContext.Provider
@@ -89,8 +112,8 @@ const CartContextProvider = (props) => {
         setOpenCart,
         dispatch,
         order: state.order,
-        total: countTotalPrice(state.order),
-        amount: countTotalAmount(state.order),
+        total: state.totalPrice,
+        amount: state.totalAmount,
       }}
     >
       {props.children}
