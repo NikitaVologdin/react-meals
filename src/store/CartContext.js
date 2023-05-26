@@ -7,12 +7,6 @@ const DB = [
   { name: "Sushi", description: "lorem10", price: 12.99, id: "4" },
 ];
 
-function myname(state) {
-  const newState = JSON.parse(JSON.stringify(state));
-
-  return newState
-}
-
 const cartReducer = (state, action) => {
   if (action.type === "ADD_TO_CART") {
     return makeOrder(state, action.item);
@@ -21,8 +15,14 @@ const cartReducer = (state, action) => {
   if (action.type === "REMOVE_ONE") {
     const newState = JSON.parse(JSON.stringify(state));
     const order = newState.order;
+    // console.log('order', order)
     const item = order.find((e) => e.id === action.id);
+    // console.log('item', item)
     item.amount--;
+    if(item.amount < 1) {
+      const index = order.findIndex(e => e.id === item.id)
+      order.splice(index, 1)
+    }
     newState.totalPrice = countTotalPrice(order);
     newState.totalAmount = countTotalAmount(order);
     return newState;

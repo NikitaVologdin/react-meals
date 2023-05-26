@@ -1,1 +1,4 @@
 code refactioring.
+add dollar signs to price in the cart, total price
+add 'x' to the amount input
+remove item from list in the cart if amount is < 1
